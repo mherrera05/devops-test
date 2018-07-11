@@ -1,0 +1,22 @@
+- hosts: all
+  become: yes
+
+  pre_tasks:
+    - name: Update apt cache if needed.
+      apt: update_cache=yes cache_valid_time=3600
+
+  tasks:
+    - name: Install Pip.
+      apt: name=python-pip state=present
+      become: yes
+
+    - name: Install Docker Python library.
+      pip: name=docker-py state=present
+      become: yes
+
+    - name: Add vagrant user to docker group.
+      user:
+        name: vagrant
+        groups: docker
+        append: yes
+      become: yes
