@@ -1,6 +1,7 @@
-  
+
 $script = <<SCRIPT
 # TODO: Put your install script here.
+sudo apt-get update
 SCRIPT
 
 Vagrant.configure("2") do |config|
@@ -18,7 +19,7 @@ Vagrant.configure("2") do |config|
         v.cpus = 1
     end
 
-    config.provision "ansible" do |ansible|
-        ansible.playbook = "provision/algo"
+    config.vm.provision "ansible" do |ansible|
+        ansible.playbook = "inc/requirements.yml"
     end
 end
