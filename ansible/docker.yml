@@ -10,10 +10,6 @@
       apt: name=python-pip state=present
       become: yes
 
-    - name: Install Docker Python library.
-      pip: name=docker-py state=present
-      become: yes
-
     - name: Add Docker GPG key
       apt_key: url=https://download.docker.com/linux/ubuntu/gpg
 
@@ -31,7 +27,12 @@
         - ca-certificates
         - curl
         - software-properties-common
+        - ipython
         - docker-ce
+
+    - name: Install Docker Python library.
+      pip: name=docker-py state=present
+      become: yes
 
     - name: Add vagrant user to docker group.
       user:
@@ -39,3 +40,6 @@
         groups: docker
         append: yes
       become: yes
+
+    - name: Run portainer
+      shell: docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
