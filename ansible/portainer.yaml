@@ -1,0 +1,22 @@
+- hosts: all
+  become: yes
+  remote_user: ubuntu
+
+  roles:
+    - docker-engine
+    - swarm
+
+  tasks:
+    # - name: Run using a project directory
+    #   docker_service:
+    #     project_src: ../portainer
+
+    - name: Check if service was created
+      shell: >
+        docker service ls | wc -l
+      register: service_count
+
+    - name: Deploy service in cluster
+      shell: >
+        docker stack deploy --compose-file=../portainer/docker-compose.yml portainer
+      when: "'1' in service_count.stdout_lines"

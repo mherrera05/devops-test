@@ -1,0 +1,8 @@
+- name: Determine cluster status
+  shell: >
+    docker info | egrep '^Swarm: ' | cut -d ' ' -f2
+  register: swarm_status
+
+- name: Docker Swarm init
+  shell: docker swarm init --advertise-addr docker0
+  when:  "'active' not in swarm_status.stdout_lines"
