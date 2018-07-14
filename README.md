@@ -2,7 +2,7 @@
 
 This project allows you create your own CI tools and [Docker Swarm](https://docs.docker.com/engine/swarm/) orquestator using [Vagrant](https://www.vagrantup.com/) Images provisioned with [Ansible](https://www.ansible.com/) in a network with DHCP (No Static IP)
 
-![Diagram](https://github.com/mherrera05/devops-test/docs/diagram-vagrant.jpeg)
+![Diagram](https://raw.githubusercontent.com/mherrera05/devops-test/master/docs/diagram-vagrant.jpg)
 ***
 
 
