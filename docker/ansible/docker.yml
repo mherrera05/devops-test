@@ -41,5 +41,44 @@
         append: yes
       become: yes
 
-    - name: Run portainer
+    - name: Install Docker Compose
+      pip:
+        name: docker-compose
+        version: 1.18.0
+      state: present
+
+    - name: Run portainer with docker composer
+      hosts: localhost
+      connection: local
+      gather_facts: no
+      tasks:
+        - docker_service:
+            project_src: docker-compose.yml
+            state: absent
+
+        # - docker_service:
+        #     project_name: portainer
+        #     definition:
+        #         db:
+        #           image: postgres
+        #         web:
+        #           build: "{{ playbook_dir }}/portainer"
+        #           command: "python manage.py runserver 0.0.0.0:8000"
+        #           volumes:
+        #             - "{{ playbook_dir }}/flask:/code"
+        #           ports:
+        #             - "8000:8000"
+        #           links:
+        #             - db
+        #   register: output
+
+        # - debug:
+        #     var: output
+
+        # - assert:
+        #     that:
+        #       - "web.flask_web_1.state.running"
+        #       - "db.flask_db_1.state.running"
+
+
       shell: docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
