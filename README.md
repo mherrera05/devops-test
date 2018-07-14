@@ -1,13 +1,16 @@
 # DevOps Project
 
-This project allows you create your own CI tools and Docker Swarm orquestator using Vagrant Images in a network with DHCP (No Static IP)
+This project allows you create your own CI tools and [Docker Swarm](https://docs.docker.com/engine/swarm/) orquestator using [Vagrant](https://www.vagrantup.com/) Images provisioned with [Ansible](https://www.ansible.com/) in a network with DHCP (No Static IP)
+
+![Diagram](https://github.com/mherrera05/devops-test/docs/diagram-vagrant.jpeg)
 ***
+
 
 ### Requeriment
 
 You should have installed this package:
-* Vagrant. Installation Steps
-* VirtualBox. Installation Steps
+* `Vagrant 2.0.2.` [Download](https://www.vagrantup.com/downloads.html)
+* `VirtualBox 5.2.10.` [Download](https://www.virtualbox.org/wiki/Linux_Downloads)
 
 ### Installation
 
@@ -15,13 +18,13 @@ You should have installed this package:
 Clone this repository using git
 
 ```bash
-$ git clone repo
+$ git clone https://github.com/mherrera05/devops-test.git
 ```
 ### Step 2
 Go to project folder and deploy Vagrant Virtual Machine
 
 ```bash
-$ cd <project>/
+$ cd <project-folder>/
 $ vagrant up
 ```
 ### Step 3
@@ -62,3 +65,8 @@ Request the service of each virtual machine, as the first machine deployed an Po
 Open you web browser and go to `http://172.28.x.x:30000 <---- IP address getted from portainer virtual machine`
 
 In the case of drone, the port used is `80`, open a new tab and go to `http://172.28.x.x <---- IP address getted from drone virtual machine`
+
+### Step 6
+Through Drone will see that is connect to a specific profile in fact to this github account. You can change this credentials in `drone/docker-composer.yml`
+
+## Enjoy!
