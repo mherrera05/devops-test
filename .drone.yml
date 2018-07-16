@@ -1,0 +1,9 @@
+pipeline:
+  scp:
+    image: appleboy/drone-scp
+    host: ${host}
+    username: vagrant
+    password: vagrant
+    port: 4430
+    target: /home/vagrant
+    source: /ansible
