@@ -1,6 +1,14 @@
 # DevOps Project
 
-This project allows you create your own CI tools and [Docker Swarm](https://docs.docker.com/engine/swarm/) orquestator using [Vagrant](https://www.vagrantup.com/) Images provisioned with [Ansible](https://www.ansible.com/) in a network with DHCP (No Static IP)
+This project allows you create your own CI tools and [Docker Swarm](https://docs.docker.com/engine/swarm/) orquestator with just one Manager node in each cluster using [Vagrant](https://www.vagrantup.com/) Images provisioned with [Ansible](https://www.ansible.com/)
+
+At the end you will have:
+
+N° | VM | Docker | Cluster | IP
+---------|---------|----------|---------|---------
+vm-1 | docker-image | yes | yes | 172.28.128.100
+vm-2 | drone-ci | yes | yes | 172.28.128.99
+vm |  gitlab | yes | no | 172.28.128.98
 
 ![Diagram](https://raw.githubusercontent.com/mherrera05/devops-test/master/docs/diagram-vagrant.jpg)
 ***
@@ -21,52 +29,64 @@ Clone this repository using git
 $ git clone https://github.com/mherrera05/devops-test.git
 ```
 ### Step 2
-Go to project folder and deploy Vagrant Virtual Machine
+Go to project folder and deploy Vagrant Virtual Machine in sequency
 
 ```bash
 $ cd <project-folder>/
-$ vagrant up
+$ vagrant up gitlab
 ```
+
+This machine will start with IP address 172.28.128.98
+
+Request the service using http://172.28.128.98
+
 ### Step 3
-Once Vagrantfile has been deployed you can verified their status with:
+Create a project in gitlab repository and setup application access for drone, go `Settings > Application > New Application`
 
-```bash
-$ vagrant global-status
-
-1fb55dd  portainer virtualbox running <folder>
-2ac2b74  drone     virtualbox running <folder>
-```
+In Authorization URL, add: `http://172.28.128.99/authorize`
 
 ### Step 4
-Open new terminal and connect with these machines via ssh
+Before start the CI virtual machine change `DRONE_GITLAB_CLIENT, DRONE_GITLAB_SECRET` for given by gitlab:
 
-```bash
-$ vagrant ssh portainer
+```yml
+- DRONE_GITLAB=true
+- DRONE_GITLAB_CLIENT=clientid
+- DRONE_GITLAB_SECRET=secret
+- DRONE_GITLAB_URL=http://172.28.128.98
+- DRONE_GITLAB_SKIP_VERIFY=true
 ```
 
-Once inside get IP address given by virtualbox, you can use this:
+And start the virtual machine with
 
 ```bash
-$ ifconfig | grep 172.28
-
-inet addr:172.28.x.x  Bcast:172.28.x.x  Mask:255.255.255.0
+$ vagrant up drone
 ```
 
-The IP address of your virtual machine in network shared with your local machine will be `inet addr:172.28.x.x`
+This machine will start with IP address 172.28.128.99
 
-You can do the same connecting to drone
-```bash
-$ vagrant ssh drone
-```
+Request the service using http://172.28.128.99
 
 ### Step 5
-Request the service of each virtual machine, as the first machine deployed an Portainer stack in the cluster, the port used is `30000`, you can request your service via `http`
+To start the last virtual machine with docker image, just run:
 
-Open you web browser and go to `http://172.28.x.x:30000 <---- IP address getted from portainer virtual machine`
+```bash
+$ vagrant up dockerimage
+```
 
-In the case of drone, the port used is `80`, open a new tab and go to `http://172.28.x.x <---- IP address getted from drone virtual machine`
+Request service using http://172.28.128.100
 
 ### Step 6
-Through Drone will see that is connect to a specific profile in fact to this github account. You can change this credentials in `drone/docker-composer.yml`
+In the project folder
+
+```bash
+$ <project-folder>/
+$ git remote add <repo> <url>
+$ git add .
+$ git push <repo> master
+```
+To push the project to the new repository and trigger the build
+
+### Step 6
+Triggering the pipeline, it will connect via ssh with docker-image virtual machine and run ansible code.
 
 ## Enjoy!

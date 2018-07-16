@@ -1,10 +1,21 @@
 pipeline:
   scp:
     image: appleboy/drone-scp
-    host: 172.28.128.18
+    host: 172.28.128.100
     username: vagrant
     password: vagrant
-    port: 4430
+    port: 22
     target: /home/vagrant
     source: /ansible
+    when: master
+
+  execute_ansible:
+    image: appleboy/drone-ssh
+    host: 172.28.128.100
+    username: vagrant
+    password: vagrant
+    port: 22
+    script:
+      - cd /home/vagrant
+      - ansible-playbook -v ansible/portainer.yml
     when: master

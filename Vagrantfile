@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
     config.ssh.insert_key = true
 
-    config.vm.define "portainer" do |portainer|
+    config.vm.define "dockerimage" do |portainer|
         portainer.vm.box = "ubuntu/xenial64"
         portainer.vm.hostname = "docker-image"
         portainer.vm.network "private_network", ip: "172.28.128.100"

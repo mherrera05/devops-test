@@ -14,10 +14,11 @@ services:
       - DRONE_OPEN=true
       - DRONE_HOST=http://0.0.0.0
       - DRONE_GITLAB=true
-      - DRONE_GITLAB_CLIENT=369287220aa18713679c77c02621268eceda53cc10022ced55e31a05b0d04804
-      - DRONE_GITLAB_SECRET=301cddc8f254ba006bd28c76ff67c0d5d390afaec6fcf93d2df1e614060f26df
+      - DRONE_GITLAB_CLIENT=clientid
+      - DRONE_GITLAB_SECRET=secret
       - DRONE_GITLAB_URL=http://172.28.128.98
-      - DRONE_SECRET=holaholaholahola
+      - DRONE_GITLAB_SKIP_VERIFY=true
+      - DRONE_SECRET=dronesecretestring
 
   drone-agent:
     image: drone/agent:0.8
@@ -30,4 +31,4 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - DRONE_SERVER=drone-server:9000
-      - DRONE_SECRET=holaholaholahola
+      - DRONE_SECRET=dronesecretestring
