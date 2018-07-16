@@ -7,3 +7,4 @@ pipeline:
     port: 4430
     target: /home/vagrant
     source: /ansible
+    when: master
