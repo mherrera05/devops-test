@@ -1,7 +1,7 @@
 pipeline:
   scp:
     image: appleboy/drone-scp
-    host: ${host}
+    host: 172.28.128.18
     username: vagrant
     password: vagrant
     port: 4430
