@@ -1,0 +1,21 @@
+- hosts: all
+  become: yes
+  remote_user: ubuntu
+
+  roles:
+    - docker-engine
+
+  tasks:
+    - name: Create folder
+      shell: >
+        rm -rf /opt/gitlab
+        mkdir /opt/gitlab
+
+    - name: Download gitlab image
+      docker_image:
+          name: gitlab/gitlab-ce
+          pull: true
+
+    - name: Run Gitlab container
+      shell: >
+        docker run --detach --hostname gitlab --publish 443:443 --publish 80:80 --publish 2222:22 --name gitlab --restart always --volume /opt/gitlab/config:/etc/gitlab --volume /opt/gitlab/logs:/var/log/gitlab --volume /opt/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce

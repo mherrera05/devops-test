@@ -13,9 +13,10 @@ services:
     environment:
       - DRONE_OPEN=true
       - DRONE_HOST=http://0.0.0.0
-      - DRONE_GITHUB=true
-      - DRONE_GITHUB_CLIENT=38ccc1cc00e5f37de6f0
-      - DRONE_GITHUB_SECRET=7adcbd7ff7711114fd6669f1086ddf83606b800f
+      - DRONE_GITLAB=true
+      - DRONE_GITLAB_CLIENT=369287220aa18713679c77c02621268eceda53cc10022ced55e31a05b0d04804
+      - DRONE_GITLAB_SECRET=301cddc8f254ba006bd28c76ff67c0d5d390afaec6fcf93d2df1e614060f26df
+      - DRONE_GITLAB_URL=http://172.28.128.98
       - DRONE_SECRET=holaholaholahola
 
   drone-agent:
